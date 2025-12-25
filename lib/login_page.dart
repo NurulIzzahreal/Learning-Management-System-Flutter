@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const LoginApp());
@@ -424,6 +425,12 @@ class LoginPageState extends State<LoginPage> {
       _showSnackBar('Harap isi email dan password');
       return;
     }
+
+    // Navigasi ke HomePage setelah login berhasil
+  Navigator.of(context).pushReplacement(
+    MaterialPageRoute(builder: (context) => const HomePage()),
+  );
+  
 
     _showSnackBar('Login berhasil! (Simulasi)');
     _emailController.clear();
