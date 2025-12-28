@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'my_classes_page.dart';
+import 'quiz_page.dart';
 
 class AssignmentsPage extends StatefulWidget {
   final String courseTitle;
@@ -16,7 +17,8 @@ class AssignmentsPage extends StatefulWidget {
   _AssignmentsPageState createState() => _AssignmentsPageState();
 }
 
-class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProviderStateMixin {
+class _AssignmentsPageState extends State<AssignmentsPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 1; // Kelas Saya aktif
 
@@ -105,11 +107,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
         backgroundColor: const Color(0xFF8B0000),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-            size: 24,
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -130,10 +128,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             ),
             Text(
               widget.courseCode,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white70,
-              ),
+              style: const TextStyle(fontSize: 12, color: Colors.white70),
             ),
           ],
         ),
@@ -162,7 +157,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
         children: [
           // Tab 1: Materi (placeholder)
           _buildMaterialsPlaceholder(),
-          
+
           // Tab 2: Tugas Dan Kuis
           _buildAssignmentsTab(),
         ],
@@ -186,10 +181,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             _onItemTapped(index, context);
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.school),
               label: 'Kelas Saya',
@@ -210,11 +202,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.menu_book,
-            size: 80,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.menu_book, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 20),
           const Text(
             'Halaman Materi',
@@ -230,10 +218,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             child: Text(
               'Untuk melihat materi, silakan buka tab Materi di halaman utama kelas',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),
           const SizedBox(height: 20),
@@ -254,9 +239,13 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
   // Widget untuk tab Tugas Dan Kuis
   Widget _buildAssignmentsTab() {
     // Filter assignments berdasarkan type
-    final List<Map<String, dynamic>> quizzes = assignments.where((a) => a['type'] == 'QUIZ').toList();
-    final List<Map<String, dynamic>> tasks = assignments.where((a) => a['type'] == 'Tugas').toList();
-    
+    final List<Map<String, dynamic>> quizzes = assignments
+        .where((a) => a['type'] == 'QUIZ')
+        .toList();
+    final List<Map<String, dynamic>> tasks = assignments
+        .where((a) => a['type'] == 'Tugas')
+        .toList();
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -280,9 +269,21 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildStatItem('Total', '${assignments.length}', Icons.list_alt),
-                _buildStatItem('Selesai', '${assignments.where((a) => a['isCompleted']).length}', Icons.check_circle),
-                _buildStatItem('Tertunda', '${assignments.where((a) => !a['isCompleted']).length}', Icons.access_time),
+                _buildStatItem(
+                  'Total',
+                  '${assignments.length}',
+                  Icons.list_alt,
+                ),
+                _buildStatItem(
+                  'Selesai',
+                  '${assignments.where((a) => a['isCompleted']).length}',
+                  Icons.check_circle,
+                ),
+                _buildStatItem(
+                  'Tertunda',
+                  '${assignments.where((a) => !a['isCompleted']).length}',
+                  Icons.access_time,
+                ),
               ],
             ),
           ),
@@ -339,25 +340,16 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             decoration: BoxDecoration(
               color: const Color(0xFFFFF3E0),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xFFFFB74D),
-              ),
+              border: Border.all(color: const Color(0xFFFFB74D)),
             ),
             child: const Row(
               children: [
-                Icon(
-                  Icons.info_outline,
-                  color: Color(0xFFF57C00),
-                  size: 24,
-                ),
+                Icon(Icons.info_outline, color: Color(0xFFF57C00), size: 24),
                 SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     'Pastikan untuk mengumpulkan tugas sebelum tenggat waktu. Keterlambatan pengumpulan akan mengurangi nilai.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFFF57C00),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFFF57C00)),
                   ),
                 ),
               ],
@@ -380,11 +372,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             color: const Color(0xFF8B0000).withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            color: const Color(0xFF8B0000),
-            size: 24,
-          ),
+          child: Icon(icon, color: const Color(0xFF8B0000), size: 24),
         ),
         const SizedBox(height: 8),
         Text(
@@ -395,13 +383,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             color: Color(0xFF8B0000),
           ),
         ),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
-        ),
+        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ],
     );
   }
@@ -425,7 +407,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             ),
           ],
           border: Border.all(
-            color: assignment['isCompleted'] 
+            color: assignment['isCompleted']
                 ? const Color(0xFF4CAF50).withOpacity(0.3)
                 : const Color(0xFFE0E0E0),
             width: assignment['isCompleted'] ? 1.5 : 1,
@@ -440,7 +422,10 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
               children: [
                 // Badge type (biru)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF2196F3),
                     borderRadius: BorderRadius.circular(6),
@@ -461,7 +446,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: assignment['isCompleted'] 
+                    color: assignment['isCompleted']
                         ? const Color(0xFF4CAF50).withOpacity(0.1)
                         : const Color(0xFFF5F5F5),
                     border: Border.all(
@@ -482,7 +467,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
               ],
             ),
             const SizedBox(height: 12),
-            
+
             // Ikon dan judul
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,7 +491,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                     size: 20,
                   ),
                 ),
-                
+
                 // Judul dan deskripsi
                 Expanded(
                   child: Column(
@@ -525,7 +510,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 6),
-                      
+
                       // Deskripsi
                       Text(
                         assignment['description'],
@@ -542,12 +527,15 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Informasi detail (tergantung type)
             if (assignment['type'] == 'QUIZ') ...[
               Row(
                 children: [
-                  _buildDetailItem(Icons.format_list_numbered, '${assignment['totalQuestions']} Soal'),
+                  _buildDetailItem(
+                    Icons.format_list_numbered,
+                    '${assignment['totalQuestions']} Soal',
+                  ),
                   const SizedBox(width: 16),
                   _buildDetailItem(Icons.timer, assignment['duration']),
                 ],
@@ -555,24 +543,25 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             ] else if (assignment['type'] == 'Tugas') ...[
               Row(
                 children: [
-                  _buildDetailItem(Icons.insert_drive_file, assignment['fileFormat']),
+                  _buildDetailItem(
+                    Icons.insert_drive_file,
+                    assignment['fileFormat'],
+                  ),
                   const SizedBox(width: 16),
                   _buildDetailItem(Icons.storage, assignment['maxSize']),
                 ],
               ),
             ],
-            
+
             const SizedBox(height: 12),
-            
+
             // Tenggat waktu
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: const Color(0xFFE0E0E0),
-                ),
+                border: Border.all(color: const Color(0xFFE0E0E0)),
               ),
               child: Row(
                 children: [
@@ -606,7 +595,10 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                   ),
                   if (!assignment['isCompleted'])
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFEBEE),
                         borderRadius: BorderRadius.circular(6),
@@ -633,18 +625,11 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
   Widget _buildDetailItem(IconData icon, String text) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16,
-          color: const Color(0xFF757575),
-        ),
+        Icon(icon, size: 16, color: const Color(0xFF757575)),
         const SizedBox(width: 6),
         Text(
           text,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Color(0xFF757575),
-          ),
+          style: const TextStyle(fontSize: 13, color: Color(0xFF757575)),
         ),
       ],
     );
@@ -656,9 +641,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Container(
@@ -679,12 +662,15 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Badge dan status
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF2196F3),
                       borderRadius: BorderRadius.circular(8),
@@ -701,13 +687,14 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                   const Spacer(),
                   if (assignment['isCompleted'])
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE8F5E9),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: const Color(0xFF4CAF50),
-                        ),
+                        border: Border.all(color: const Color(0xFF4CAF50)),
                       ),
                       child: const Row(
                         children: [
@@ -731,7 +718,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Judul
               Text(
                 assignment['title'],
@@ -742,7 +729,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                 ),
               ),
               const SizedBox(height: 10),
-              
+
               // Deskripsi
               Text(
                 assignment['description'],
@@ -753,7 +740,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Informasi detail
               Container(
                 padding: const EdgeInsets.all(16),
@@ -764,7 +751,10 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                 child: Column(
                   children: [
                     if (assignment['type'] == 'QUIZ') ...[
-                      _buildDetailRow('Jumlah Soal', '${assignment['totalQuestions']} Soal'),
+                      _buildDetailRow(
+                        'Jumlah Soal',
+                        '${assignment['totalQuestions']} Soal',
+                      ),
                       _buildDetailRow('Durasi', assignment['duration']),
                     ] else if (assignment['type'] == 'Tugas') ...[
                       _buildDetailRow('Format File', assignment['fileFormat']),
@@ -772,16 +762,18 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                     ],
                     _buildDetailRow('Tenggat Waktu', assignment['deadline']),
                     _buildDetailRow(
-                      'Status', 
-                      assignment['isCompleted'] ? 'Telah Dikumpulkan' : 'Belum Dikumpulkan',
+                      'Status',
+                      assignment['isCompleted']
+                          ? 'Telah Dikumpulkan'
+                          : 'Belum Dikumpulkan',
                       isImportant: !assignment['isCompleted'],
                     ),
                   ],
                 ),
               ),
-              
+
               const Spacer(),
-              
+
               // Tombol aksi
               Row(
                 children: [
@@ -806,18 +798,19 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
                     ),
                   ),
                   const SizedBox(width: 12),
+                  // Di dalam modal detail (sekitar baris 350-380)
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              assignment['isCompleted'] 
-                                ? 'Melihat ${assignment['title']}' 
-                                : 'Membuka ${assignment['title']}',
+                        Navigator.pop(context); // Tutup modal
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QuizPage(
+                              quizTitle: assignment['title'],
+                              totalQuestions:
+                                  assignment['totalQuestions'] ?? 15,
                             ),
-                            backgroundColor: const Color(0xFF8B0000),
                           ),
                         );
                       },
@@ -847,19 +840,17 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
   }
 
   // Widget untuk baris detail
-  Widget _buildDetailRow(String label, String value, {bool isImportant = false}) {
+  Widget _buildDetailRow(
+    String label,
+    String value, {
+    bool isImportant = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.grey,
-            ),
-          ),
+          Text(label, style: const TextStyle(fontSize: 15, color: Colors.grey)),
           Text(
             value,
             style: TextStyle(
@@ -869,16 +860,16 @@ class _AssignmentsPageState extends State<AssignmentsPage> with SingleTickerProv
             ),
           ),
         ],
-      )
+      ),
     );
-    }
+  }
 
   // Method untuk navigasi antar halaman
   void _onItemTapped(int index, BuildContext context) {
     setState(() {
       _selectedIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(
