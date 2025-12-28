@@ -1,5 +1,6 @@
 // lib/home_page.dart
 import 'package:flutter/material.dart';
+import 'my_classes_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +11,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  
+  // ... data courses dan kode lainnya ...
+
+  // ========== TAMBAHKAN METHOD INI ==========
+  void _onItemTapped(int index) {
+    // Update UI terlebih dahulu
+    setState(() {
+      _selectedIndex = index;
+    });
+    
+    // Navigasi ke halaman yang sesuai
+    switch (index) {
+      case 0: // Home
+        // Sudah di Home, tidak perlu navigasi
+        break;
+      case 1: // Kelas Saya
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MyClassesPage()),
+        );
+        break;
+      case 2: // Notifikasi
+        // Untuk sementara, tampilkan snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Halaman Notifikasi akan segera tersedia'),
+            backgroundColor: Color(0xFF800000),
+          ),
+        );
+        break;
+    }
+  }
 
   // Data dummy untuk progres kelas
   final List<Map<String, dynamic>> courses = [
@@ -80,10 +113,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text(
                   'Hallo,',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.white70),
                 ),
                 const SizedBox(height: 2),
                 const Text(
@@ -105,11 +135,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: const Row(
                 children: [
-                  Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  Icon(Icons.person, color: Colors.white, size: 16),
                   SizedBox(width: 6),
                   Text(
                     'Mahasiswa',
@@ -177,7 +203,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 12),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -192,10 +221,7 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(width: 8),
                           const Text(
                             'Waktu Pengumpulan: ',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
+                            style: TextStyle(fontSize: 14, color: Colors.white),
                           ),
                           const SizedBox(width: 4),
                           Expanded(
@@ -269,7 +295,10 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.orange,
                             borderRadius: BorderRadius.circular(6),
@@ -306,10 +335,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 4),
                     const Text(
                       'Maintenance LMS',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.white70),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -322,18 +348,20 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 6),
                         const Text(
                           '26 Mei 2021',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white,
-                          ),
+                          style: TextStyle(fontSize: 13, color: Colors.white),
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.white.withOpacity(0.3)),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.3),
+                            ),
                           ),
                           child: const Text(
                             'Detail',
@@ -365,7 +393,8 @@ class _HomePageState extends State<HomePage> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: courses.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 12),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final course = courses[index];
                   return Container(
@@ -380,9 +409,7 @@ class _HomePageState extends State<HomePage> {
                           offset: const Offset(0, 2),
                         ),
                       ],
-                      border: Border.all(
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
+                      border: Border.all(color: Colors.grey.withOpacity(0.2)),
                     ),
                     child: Row(
                       children: [
@@ -394,7 +421,9 @@ class _HomePageState extends State<HomePage> {
                             color: const Color(0xFF800000).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: course['thumbnail'] == 'assets/images/ui_design.png'
+                          child:
+                              course['thumbnail'] ==
+                                  'assets/images/ui_design.png'
                               ? const Center(
                                   child: Icon(
                                     Icons.design_services,
@@ -402,53 +431,57 @@ class _HomePageState extends State<HomePage> {
                                     size: 24,
                                   ),
                                 )
-                              : course['thumbnail'] == 'assets/images/civics.png'
-                                  ? const Center(
-                                      child: Icon(
-                                        Icons.account_balance,
-                                        color: Color(0xFF800000),
-                                        size: 24,
-                                      ),
-                                    )
-                                  : course['thumbnail'] == 'assets/images/os.png'
-                                      ? const Center(
-                                          child: Icon(
-                                            Icons.computer,
-                                            color: Color(0xFF800000),
-                                            size: 24,
-                                          ),
-                                        )
-                                      : course['thumbnail'] == 'assets/images/mobile.png'
-                                          ? const Center(
-                                              child: Icon(
-                                                Icons.phone_android,
-                                                color: Color(0xFF800000),
-                                                size: 24,
-                                              ),
-                                            )
-                                          : course['thumbnail'] == 'assets/images/english.png'
-                                              ? const Center(
-                                                  child: Icon(
-                                                    Icons.language,
-                                                    color: Color(0xFF800000),
-                                                    size: 24,
-                                                  ),
-                                                )
-                                              : course['thumbnail'] == 'assets/images/multimedia.png'
-                                                  ? const Center(
-                                                      child: Icon(
-                                                        Icons.videocam,
-                                                        color: Color(0xFF800000),
-                                                        size: 24,
-                                                      ),
-                                                    )
-                                                  : const Center(
-                                                      child: Icon(
-                                                        Icons.sports_soccer,
-                                                        color: Color(0xFF800000),
-                                                        size: 24,
-                                                      ),
-                                                    ),
+                              : course['thumbnail'] ==
+                                    'assets/images/civics.png'
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.account_balance,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                )
+                              : course['thumbnail'] == 'assets/images/os.png'
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.computer,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                )
+                              : course['thumbnail'] ==
+                                    'assets/images/mobile.png'
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.phone_android,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                )
+                              : course['thumbnail'] ==
+                                    'assets/images/english.png'
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.language,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                )
+                              : course['thumbnail'] ==
+                                    'assets/images/multimedia.png'
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.videocam,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                )
+                              : const Center(
+                                  child: Icon(
+                                    Icons.sports_soccer,
+                                    color: Color(0xFF800000),
+                                    size: 24,
+                                  ),
+                                ),
                         ),
                         const SizedBox(width: 12),
                         // Course Info
@@ -482,13 +515,17 @@ class _HomePageState extends State<HomePage> {
                                   LinearProgressIndicator(
                                     value: course['progress'],
                                     backgroundColor: Colors.grey[200],
-                                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF800000)),
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          Color(0xFF800000),
+                                        ),
                                     minHeight: 6,
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                   const SizedBox(height: 4),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         course['progressText'],
@@ -539,15 +576,10 @@ class _HomePageState extends State<HomePage> {
           unselectedItemColor: Colors.white.withOpacity(0.7),
           currentIndex: _selectedIndex,
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
+            _onItemTapped(index); // Panggil method navigasi
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.school),
               label: 'Kelas Saya',
