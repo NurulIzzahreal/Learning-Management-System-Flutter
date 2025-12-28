@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'my_classes_page.dart';
+import 'announcement_detail_page.dart';
 
 class AnnouncementsPage extends StatefulWidget {
   const AnnouncementsPage({super.key});
@@ -16,7 +17,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
   final List<Map<String, dynamic>> announcements = [
     {
       'title': 'Maintenance Pra UAS Semester Genap 2020/2021',
-      'description': 'Maintenance LMS akan dilakukan pada tanggal 15-16 Januari 2021',
+      'description':
+          'Maintenance LMS akan dilakukan pada tanggal 15-16 Januari 2021',
       'author': 'By Admin Celoe',
       'date': 'Senin, 11 Januari 2021, 7:52',
       'isImportant': true,
@@ -30,7 +32,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     },
     {
       'title': 'Panduan Penggunaan LMS Mobile',
-      'description': 'Tutorial lengkap penggunaan aplikasi LMS mobile untuk mahasiswa',
+      'description':
+          'Tutorial lengkap penggunaan aplikasi LMS mobile untuk mahasiswa',
       'author': 'By Admin Celoe',
       'date': 'Sabtu, 9 Januari 2021, 10:15',
       'isImportant': false,
@@ -51,14 +54,16 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     },
     {
       'title': 'Workshop Pemrograman Mobile',
-      'description': 'Workshop gratis untuk mahasiswa yang tertarik pemrograman mobile',
+      'description':
+          'Workshop gratis untuk mahasiswa yang tertarik pemrograman mobile',
       'author': 'By Fakultas Teknik',
       'date': 'Rabu, 6 Januari 2021, 11:10',
       'isImportant': true,
     },
     {
       'title': 'Update Fitur Diskusi Online',
-      'description': 'Fitur diskusi online telah ditingkatkan dengan kemampuan video call',
+      'description':
+          'Fitur diskusi online telah ditingkatkan dengan kemampuan video call',
       'author': 'By Admin Celoe',
       'date': 'Selasa, 5 Januari 2021, 13:25',
       'isImportant': false,
@@ -73,10 +78,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Color(0xFF8B0000),
-          ),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF8B0000)),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -132,10 +134,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                         children: [
                           const Text(
                             'Total Pengumuman',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
                           const SizedBox(height: 2),
                           Text(
@@ -158,7 +157,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: announcements.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final announcement = announcements[index];
                   return _buildAnnouncementCard(announcement, index);
@@ -188,10 +188,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             _onItemTapped(index, context);
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.school),
               label: 'Kelas Saya',
@@ -207,170 +204,186 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
   }
 
   // Widget untuk membuat card pengumuman
+  // Widget untuk membuat card pengumuman
   Widget _buildAnnouncementCard(Map<String, dynamic> announcement, int index) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
+    return GestureDetector(
+      onTap: () {
+        // Navigasi ke halaman detail pengumuman
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                AnnouncementDetailPage(announcement: announcement),
           ),
-        ],
-        border: Border.all(
-          color: announcement['isImportant'] 
-              ? const Color(0xFF8B0000).withOpacity(0.3)
-              : Colors.grey.withOpacity(0.2),
-          width: announcement['isImportant'] ? 1.5 : 1,
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Ikon megaphone
-          Container(
-            width: 40,
-            height: 40,
-            margin: const EdgeInsets.only(right: 12),
-            decoration: BoxDecoration(
-              color: announcement['isImportant']
-                  ? const Color(0xFFFFEBEE)
-                  : Colors.grey[100],
-              shape: BoxShape.circle,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
             ),
-            child: Center(
-              child: Icon(
-                Icons.campaign,
+          ],
+          border: Border.all(
+            color: announcement['isImportant']
+                ? const Color(0xFF8B0000).withOpacity(0.3)
+                : const Color(0xFFE0E0E0),
+            width: announcement['isImportant'] ? 1.5 : 1,
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Ikon megaphone
+            Container(
+              width: 40,
+              height: 40,
+              margin: const EdgeInsets.only(right: 12),
+              decoration: BoxDecoration(
                 color: announcement['isImportant']
-                    ? const Color(0xFF8B0000)
-                    : Colors.black54,
-                size: 20,
+                    ? const Color(0xFFFFEBEE)
+                    : const Color(0xFFF5F5F5),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.campaign,
+                  color: announcement['isImportant']
+                      ? const Color(0xFF8B0000)
+                      : Colors.black54,
+                  size: 20,
+                ),
               ),
             ),
-          ),
-          
-          // Konten pengumuman
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Badge penting (jika perlu)
-                if (announcement['isImportant'])
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    margin: const EdgeInsets.only(bottom: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFEBEE),
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                        color: const Color(0xFF8B0000).withOpacity(0.3),
+
+            // Konten pengumuman
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Badge penting (jika perlu)
+                  if (announcement['isImportant'])
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      margin: const EdgeInsets.only(bottom: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFEBEE),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(
+                          color: const Color(0xFF8B0000).withOpacity(0.3),
+                        ),
+                      ),
+                      child: const Text(
+                        'PENTING',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color(0xFF8B0000),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    child: const Text(
-                      'PENTING',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Color(0xFF8B0000),
-                        fontWeight: FontWeight.bold,
+
+                  // Judul pengumuman
+                  Text(
+                    announcement['title'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                      height: 1.3,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+
+                  // Deskripsi pengumuman
+                  Text(
+                    announcement['description'],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF616161),
+                      height: 1.4,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Metadata: author dan tanggal
+                  Row(
+                    children: [
+                      // Author
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.person_outline,
+                            size: 14,
+                            color: Color(0xFF9E9E9E),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            announcement['author'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF9E9E9E),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                
-                // Judul pengumuman
-                Text(
-                  announcement['title'],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                    height: 1.3,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 6),
-                
-                // Deskripsi pengumuman
-                Text(
-                  announcement['description'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    height: 1.4,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10),
-                
-                // Metadata: author dan tanggal
-                Row(
-                  children: [
-                    // Author
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.person_outline,
-                          size: 14,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          announcement['author'],
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
+                      const SizedBox(width: 16),
+
+                      // Tanggal
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today,
+                            size: 14,
+                            color: Color(0xFF9E9E9E),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 16),
-                    
-                    // Tanggal
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_today,
-                          size: 14,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          announcement['date'],
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
+                          const SizedBox(width: 4),
+                          Text(
+                            announcement['date'],
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF9E9E9E),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                
-                // Garis pemisah waktu relatif
-                if (index < announcements.length - 1)
-                  Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    height: 1,
-                    color: Colors.grey.withOpacity(0.1),
+                        ],
+                      ),
+                    ],
                   ),
-              ],
+
+                  // Garis pemisah waktu relatif
+                  if (index < announcements.length - 1)
+                    Container(
+                      margin: const EdgeInsets.only(top: 12),
+                      height: 1,
+                      color: const Color(0xFFE0E0E0).withOpacity(0.5),
+                    ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
+  } // <-- INI KURUNG TUTUP UNTUK METHOD _buildAnnouncementCard
 
   // Method untuk navigasi antar halaman via bottom nav
   void _onItemTapped(int index, BuildContext context) {
     setState(() {
       _selectedIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(
