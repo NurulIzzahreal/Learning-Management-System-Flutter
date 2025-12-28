@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'my_classes_page.dart';
 import 'task_detail_page.dart';
+import 'announcements_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -159,7 +160,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // Section: Tugas Yang Akan Datang
               const Text(
                 'Tugas Yang Akan Datang',
@@ -283,6 +283,12 @@ class _HomePageState extends State<HomePage> {
                   GestureDetector(
                     onTap: () {
                       // Navigasi ke halaman semua pengumuman
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AnnouncementsPage(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Lihat Semua',
