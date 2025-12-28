@@ -34,7 +34,7 @@ class _AnnouncementDetailPageState extends State<AnnouncementDetailPage> {
           },
         ),
         title: const Text(
-          'Pengumuman',
+          'Detail Pengumuman',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

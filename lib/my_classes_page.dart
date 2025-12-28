@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Pastikan import HomePage
+import 'course_material_page.dart';
 
 class MyClassesPage extends StatefulWidget {
   const MyClassesPage({super.key});
@@ -79,10 +80,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Color(0xFF8B0000),
-          ),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF8B0000)),
           onPressed: () {
             // Kembali ke HomePage
             Navigator.pushReplacement(
@@ -126,10 +124,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
                       children: [
                         Text(
                           'Total Kelas',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
                         ),
                         SizedBox(height: 4),
                         Text(
@@ -143,7 +138,10 @@ class _MyClassesPageState extends State<MyClassesPage> {
                       ],
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF8B0000),
                         borderRadius: BorderRadius.circular(8),
@@ -166,131 +164,163 @@ class _MyClassesPageState extends State<MyClassesPage> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: myClasses.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final course = myClasses[index];
-                  return Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                      border: Border.all(
-                        color: Colors.grey.withOpacity(0.1),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Thumbnail
-                        Container(
-                          width: 70,
-                          height: 70,
-                          margin: const EdgeInsets.only(right: 16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFF8B0000).withOpacity(0.1),
-                            border: Border.all(
-                              color: const Color(0xFF8B0000).withOpacity(0.2),
-                              width: 1,
-                            ),
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigasi ke halaman detail materi
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseMaterialPage(
+                            courseTitle: course['title'],
+                            courseCode: course['classCode'],
                           ),
-                          child: _getThumbnailIcon(course['thumbnail']),
                         ),
-                        
-                        // Informasi kelas
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Tahun akademik
-                              Text(
-                                course['year'],
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF8B0000),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                        border: Border.all(
+                          color: Colors.grey.withOpacity(0.1),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Thumbnail
+                          Container(
+                            width: 70,
+                            height: 70,
+                            margin: const EdgeInsets.only(right: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: const Color(0xFF8B0000).withOpacity(0.1),
+                              border: Border.all(
+                                color: const Color(0xFF8B0000).withOpacity(0.2),
+                                width: 1,
                               ),
-                              const SizedBox(height: 4),
-                              
-                              // Nama mata kuliah
-                              Text(
-                                course['title'],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                  height: 1.2,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
-                              
-                              // Kode kelas
-                              Text(
-                                course['classCode'],
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              
-                              // Progress bar
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  LinearProgressIndicator(
-                                    value: course['progress'],
-                                    backgroundColor: Colors.grey[200],
-                                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF8B0000)),
-                                    minHeight: 6,
-                                    borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: _getThumbnailIcon(course['thumbnail']),
+                          ),
+
+                          // Informasi kelas
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Tahun akademik
+                                Text(
+                                  course['year'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF8B0000),
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        course['progressText'],
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.grey[700],
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF8B0000).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: Text(
-                                          '${(course['progress'] * 100).toInt()}%',
+                                ),
+                                const SizedBox(height: 4),
+
+                                // Nama mata kuliah
+                                Text(
+                                  course['title'],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                    height: 1.2,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+
+                                // Kode kelas
+                                Text(
+                                  course['classCode'],
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Color(
+                                      0xFF757575,
+                                    ), // Ganti Colors.grey[600]
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+
+                                // Progress bar
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    LinearProgressIndicator(
+                                      value: course['progress'],
+                                      backgroundColor: const Color(
+                                        0xFFEEEEEE,
+                                      ), // Ganti Colors.grey[200]
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                            Color(0xFF8B0000),
+                                          ),
+                                      minHeight: 6,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          course['progressText'],
                                           style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF8B0000),
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                            color: Color(
+                                              0xFF616161,
+                                            ), // Ganti Colors.grey[700]
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: const Color(
+                                              0xFF8B0000,
+                                            ).withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${(course['progress'] * 100).toInt()}%',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF8B0000),
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -319,10 +349,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
             _onItemTapped(index, context); // Panggil method navigasi
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.school),
               label: 'Kelas Saya',
@@ -358,51 +385,27 @@ class _MyClassesPageState extends State<MyClassesPage> {
         );
       case 'assets/images/os.png':
         return const Center(
-          child: Icon(
-            Icons.computer,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.computer, color: Color(0xFF8B0000), size: 32),
         );
       case 'assets/images/mobile.png':
         return const Center(
-          child: Icon(
-            Icons.phone_android,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.phone_android, color: Color(0xFF8B0000), size: 32),
         );
       case 'assets/images/english.png':
         return const Center(
-          child: Icon(
-            Icons.language,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.language, color: Color(0xFF8B0000), size: 32),
         );
       case 'assets/images/multimedia.png':
         return const Center(
-          child: Icon(
-            Icons.videocam,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.videocam, color: Color(0xFF8B0000), size: 32),
         );
       case 'assets/images/sports.png':
         return const Center(
-          child: Icon(
-            Icons.sports_soccer,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.sports_soccer, color: Color(0xFF8B0000), size: 32),
         );
       default:
         return const Center(
-          child: Icon(
-            Icons.school,
-            color: Color(0xFF8B0000),
-            size: 32,
-          ),
+          child: Icon(Icons.school, color: Color(0xFF8B0000), size: 32),
         );
     }
   }
@@ -412,7 +415,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
     setState(() {
       _selectedIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(

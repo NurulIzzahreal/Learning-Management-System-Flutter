@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'my_classes_page.dart';
 import 'task_detail_page.dart';
 import 'announcements_page.dart';
+import 'course_material_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -429,160 +430,182 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final course = courses[index];
-                  return Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                      border: Border.all(color: Colors.grey.withOpacity(0.2)),
-                    ),
-                    child: Row(
-                      children: [
-                        // Thumbnail
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF800000).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child:
-                              course['thumbnail'] ==
-                                  'assets/images/ui_design.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.design_services,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : course['thumbnail'] ==
-                                    'assets/images/civics.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.account_balance,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : course['thumbnail'] == 'assets/images/os.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.computer,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : course['thumbnail'] ==
-                                    'assets/images/mobile.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.phone_android,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : course['thumbnail'] ==
-                                    'assets/images/english.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.language,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : course['thumbnail'] ==
-                                    'assets/images/multimedia.png'
-                              ? const Center(
-                                  child: Icon(
-                                    Icons.videocam,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                )
-                              : const Center(
-                                  child: Icon(
-                                    Icons.sports_soccer,
-                                    color: Color(0xFF800000),
-                                    size: 24,
-                                  ),
-                                ),
-                        ),
-                        const SizedBox(width: 12),
-                        // Course Info
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                course['title'],
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                course['classCode'],
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              // Progress Bar
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  LinearProgressIndicator(
-                                    value: course['progress'],
-                                    backgroundColor: Colors.grey[200],
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                          Color(0xFF800000),
-                                        ),
-                                    minHeight: 6,
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        course['progressText'],
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[700],
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${(course['progress'] * 100).toInt()}%',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF800000),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigasi ke halaman detail materi
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseMaterialPage(
+                            courseTitle: course['title'],
+                            courseCode: course['classCode'],
                           ),
                         ),
-                      ],
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                      ),
+                      child: Row(
+                        children: [
+                          // Thumbnail
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF8B0000).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: AssetImage(course['thumbnail']),
+                                fit: BoxFit.cover,
+                                colorFilter: ColorFilter.mode(
+                                  const Color(0xFF8B0000).withOpacity(0.1),
+                                  BlendMode.darken,
+                                ),
+                              ),
+                            ),
+                            child:
+                                course['thumbnail'] ==
+                                    'assets/images/ui_design.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.design_services,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : course['thumbnail'] ==
+                                      'assets/images/civics.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.account_balance,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : course['thumbnail'] == 'assets/images/os.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.computer,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : course['thumbnail'] ==
+                                      'assets/images/mobile.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.phone_android,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : course['thumbnail'] ==
+                                      'assets/images/english.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.language,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : course['thumbnail'] ==
+                                      'assets/images/multimedia.png'
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.videocam,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  )
+                                : const Center(
+                                    child: Icon(
+                                      Icons.sports_soccer,
+                                      color: Color(0xFF8B0000),
+                                      size: 24,
+                                    ),
+                                  ),
+                          ),
+                          const SizedBox(width: 12),
+                          // Course Info
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  course['title'],
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black87,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  course['classCode'],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF757575),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                // Progress Bar
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    LinearProgressIndicator(
+                                      value: course['progress'],
+                                      backgroundColor: const Color(0xFFEEEEEE),
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                            Color(0xFF8B0000),
+                                          ),
+                                      minHeight: 6,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          course['progressText'],
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF616161),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${(course['progress'] * 100).toInt()}%',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF8B0000),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
