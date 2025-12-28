@@ -1,6 +1,7 @@
 // lib/home_page.dart
 import 'package:flutter/material.dart';
 import 'my_classes_page.dart';
+import 'task_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  
+
   // ... data courses dan kode lainnya ...
 
   // ========== TAMBAHKAN METHOD INI ==========
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    
+
     // Navigasi ke halaman yang sesuai
     switch (index) {
       case 0: // Home
@@ -101,10 +102,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // Di dalam class _HomePageState di home_page.dart
       appBar: AppBar(
         backgroundColor: const Color(0xFF800000),
         elevation: 0,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, // Nonaktifkan back button otomatis
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -157,6 +159,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               // Section: Tugas Yang Akan Datang
               const Text(
                 'Tugas Yang Akan Datang',
@@ -167,77 +170,100 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF800000),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF800000).withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+
+              // Card Tugas - DIBUNGKUS DENGAN GestureDetector
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TaskDetailPage(
+                        taskTitle: 'Tugas 01 - UID Android Mobile Game',
+                        courseName: 'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Tugas 01 - UID Android Mobile Game',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF800000),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF800000).withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // NAMA MATA KULIAH
+                      const Text(
+                        'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 8),
+
+                      // JUDUL TUGAS
+                      const Text(
+                        'Tugas 01 - UID Android Mobile Game',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'Waktu Pengumpulan: ',
-                            style: TextStyle(fontSize: 14, color: Colors.white),
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              'Segera',
+                      const SizedBox(height: 12),
+
+                      // DEADLINE
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Waktu Pengumpulan: ',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.yellow[300],
-                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                'Segera',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.yellow[300],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 24),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'home_page.dart'; // Pastikan import HomePage
 
 class MyClassesPage extends StatefulWidget {
   const MyClassesPage({super.key});
@@ -84,7 +84,11 @@ class _MyClassesPageState extends State<MyClassesPage> {
             color: Color(0xFF8B0000),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            // Kembali ke HomePage
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           },
         ),
         title: const Text(
@@ -312,11 +316,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
           unselectedItemColor: Colors.white.withOpacity(0.7),
           currentIndex: _selectedIndex,
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-              // Navigasi antar halaman
-              _onItemTapped(index, context);
-            });
+            _onItemTapped(index, context); // Panggil method navigasi
           },
           items: const [
             BottomNavigationBarItem(
@@ -407,8 +407,12 @@ class _MyClassesPageState extends State<MyClassesPage> {
     }
   }
 
-  // Method untuk navigasi antar halaman
+  // Method untuk navigasi antar halaman via bottom nav
   void _onItemTapped(int index, BuildContext context) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(
@@ -420,11 +424,13 @@ class _MyClassesPageState extends State<MyClassesPage> {
         // Sudah di halaman ini, tidak perlu navigasi
         break;
       case 2: // Notifikasi
-        // Akan dibuat nanti
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const NotificationsPage()),
-        // );
+        // Untuk sementara, tampilkan snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Halaman Notifikasi akan segera tersedia'),
+            backgroundColor: Color(0xFF8B0000),
+          ),
+        );
         break;
     }
   }
