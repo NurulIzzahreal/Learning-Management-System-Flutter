@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async'; // Untuk Timer
+import 'quiz_review_page.dart';
 
 class QuizPage extends StatefulWidget {
   final String quizTitle;
@@ -70,13 +71,7 @@ class _QuizPageState extends State<QuizPage> {
     },
     {
       'question': 'Warna apa yang sering diasosiasikan dengan peringatan?',
-      'options': [
-        'A. Biru',
-        'B. Hijau',
-        'C. Kuning',
-        'D. Ungu',
-        'E. Putih',
-      ],
+      'options': ['A. Biru', 'B. Hijau', 'C. Kuning', 'D. Ungu', 'E. Putih'],
       'correctAnswer': 2,
     },
     {
@@ -254,7 +249,7 @@ class _QuizPageState extends State<QuizPage> {
 
   void _submitQuiz() {
     _timer.cancel();
-    
+
     // Hitung skor
     int correctAnswers = 0;
     for (int i = 0; i < questions.length; i++) {
@@ -262,81 +257,26 @@ class _QuizPageState extends State<QuizPage> {
         correctAnswers++;
       }
     }
-    
+
     double score = (correctAnswers / questions.length) * 100;
-    
-    // Tampilkan dialog hasil
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Kuis Selesai!',
-          style: TextStyle(
-            color: Color(0xFF8B0000),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.check_circle,
-              color: Color(0xFF4CAF50),
-              size: 60,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Skor Anda: ${score.toStringAsFixed(1)}%',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF8B0000),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '$correctAnswers jawaban benar dari ${questions.length} soal',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 20),
-            LinearProgressIndicator(
-              value: correctAnswers / questions.length,
-              backgroundColor: Colors.grey[200],
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF8B0000)),
-              minHeight: 10,
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Tutup dialog
-              Navigator.pop(context); // Kembali ke halaman sebelumnya
-            },
-            child: const Text(
-              'Kembali',
-              style: TextStyle(
-                color: Color(0xFF8B0000),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context); // Tutup dialog
-              Navigator.pop(context); // Kembali ke halaman sebelumnya
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF8B0000),
-            ),
-            child: const Text('Lihat Detail Jawaban'),
-          ),
-        ],
+
+    // Buat data hasil kuis
+    Map<String, dynamic> quizResult = {
+      'quizTitle': widget.quizTitle,
+      'totalQuestions': widget.totalQuestions,
+      'correctAnswers': correctAnswers,
+      'score': score,
+      'userAnswers': _userAnswers,
+      'startTime': 'Senin, 15 Jan 2021 14:30 WIB',
+      'endTime': 'Senin, 15 Jan 2021 15:15 WIB',
+      'duration': '45 menit 30 detik',
+    };
+
+    // Arahkan ke halaman review
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuizReviewPage(quizResult: quizResult),
       ),
     );
   }
@@ -388,7 +328,10 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     // Timer
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(20),
@@ -432,10 +375,15 @@ class _QuizPageState extends State<QuizPage> {
                           margin: const EdgeInsets.only(right: 8),
                           decoration: BoxDecoration(
                             color: _answeredQuestions[index]
-                                ? const Color(0xFF4CAF50) // Hijau untuk soal terjawab
+                                ? const Color(
+                                    0xFF4CAF50,
+                                  ) // Hijau untuk soal terjawab
                                 : index == _currentQuestionIndex
-                                    ? const Color(0xFF8B0000) // Merah untuk soal aktif
-                                    : Colors.white, // Putih untuk soal belum terjawab
+                                ? const Color(
+                                    0xFF8B0000,
+                                  ) // Merah untuk soal aktif
+                                : Colors
+                                      .white, // Putih untuk soal belum terjawab
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: _answeredQuestions[index]
@@ -450,7 +398,9 @@ class _QuizPageState extends State<QuizPage> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: _answeredQuestions[index] || index == _currentQuestionIndex
+                                color:
+                                    _answeredQuestions[index] ||
+                                        index == _currentQuestionIndex
                                     ? Colors.white
                                     : Colors.black,
                               ),
@@ -474,13 +424,14 @@ class _QuizPageState extends State<QuizPage> {
                 children: [
                   // Indikator soal
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF5F5F5),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: const Color(0xFFE0E0E0),
-                      ),
+                      border: Border.all(color: const Color(0xFFE0E0E0)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -494,7 +445,10 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: _answeredQuestions[_currentQuestionIndex]
                                 ? const Color(0xFFE8F5E9)
@@ -538,8 +492,11 @@ class _QuizPageState extends State<QuizPage> {
 
                   // Pilihan jawaban
                   Column(
-                    children: List.generate(currentQuestion['options'].length, (index) {
-                      final isSelected = _userAnswers[_currentQuestionIndex] == index;
+                    children: List.generate(currentQuestion['options'].length, (
+                      index,
+                    ) {
+                      final isSelected =
+                          _userAnswers[_currentQuestionIndex] == index;
                       return GestureDetector(
                         onTap: () => _selectAnswer(index),
                         child: Container(
@@ -548,7 +505,9 @@ class _QuizPageState extends State<QuizPage> {
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? const Color(0xFFFFCDD2) // Salmon merah muda untuk pilihan aktif
+                                ? const Color(
+                                    0xFFFFCDD2,
+                                  ) // Salmon merah muda untuk pilihan aktif
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
@@ -560,7 +519,9 @@ class _QuizPageState extends State<QuizPage> {
                             boxShadow: isSelected
                                 ? [
                                     BoxShadow(
-                                      color: const Color(0xFFFFCDD2).withOpacity(0.5),
+                                      color: const Color(
+                                        0xFFFFCDD2,
+                                      ).withOpacity(0.5),
                                       blurRadius: 8,
                                       offset: const Offset(0, 4),
                                     ),
@@ -592,7 +553,9 @@ class _QuizPageState extends State<QuizPage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    String.fromCharCode(65 + index), // A, B, C, D, E
+                                    String.fromCharCode(
+                                      65 + index,
+                                    ), // A, B, C, D, E
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -644,10 +607,7 @@ class _QuizPageState extends State<QuizPage> {
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
-                top: BorderSide(
-                  color: Colors.grey.withOpacity(0.2),
-                  width: 1,
-                ),
+                top: BorderSide(color: Colors.grey.withOpacity(0.2), width: 1),
               ),
               boxShadow: [
                 BoxShadow(
@@ -692,9 +652,9 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
                   ),
-                
+
                 if (!isFirstQuestion) const SizedBox(width: 12),
-                
+
                 // Tombol Selanjutnya/Selesai
                 Expanded(
                   child: ElevatedButton(
@@ -707,8 +667,12 @@ class _QuizPageState extends State<QuizPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isLastQuestion
-                          ? const Color(0xFF4CAF50) // Hijau untuk tombol Selesai
-                          : const Color(0xFF8B0000), // Merah marun untuk Selanjutnya
+                          ? const Color(
+                              0xFF4CAF50,
+                            ) // Hijau untuk tombol Selesai
+                          : const Color(
+                              0xFF8B0000,
+                            ), // Merah marun untuk Selanjutnya
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -725,8 +689,7 @@ class _QuizPageState extends State<QuizPage> {
                             color: Colors.white,
                           ),
                         ),
-                        if (!isLastQuestion)
-                          const SizedBox(width: 8),
+                        if (!isLastQuestion) const SizedBox(width: 8),
                         if (!isLastQuestion)
                           const Icon(
                             Icons.arrow_forward,
@@ -762,10 +725,7 @@ class _QuizPageState extends State<QuizPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Batal',
-              style: TextStyle(color: Colors.grey),
-            ),
+            child: const Text('Batal', style: TextStyle(color: Colors.grey)),
           ),
           ElevatedButton(
             onPressed: () {
