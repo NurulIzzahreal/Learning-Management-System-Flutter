@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'my_classes_page.dart';
+import 'assignments_page.dart';
 
 class CourseMaterialPage extends StatefulWidget {
   final String courseTitle;
@@ -16,7 +17,8 @@ class CourseMaterialPage extends StatefulWidget {
   _CourseMaterialPageState createState() => _CourseMaterialPageState();
 }
 
-class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTickerProviderStateMixin {
+class _CourseMaterialPageState extends State<CourseMaterialPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 1; // Kelas Saya aktif
 
@@ -100,11 +102,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
         backgroundColor: const Color(0xFF8B0000),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-            size: 24,
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -125,10 +123,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
             ),
             Text(
               widget.courseCode,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white70,
-              ),
+              style: const TextStyle(fontSize: 12, color: Colors.white70),
             ),
           ],
         ),
@@ -157,7 +152,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
         children: [
           // Tab 1: Materi
           _buildMaterialsTab(),
-          
+
           // Tab 2: Tugas Dan Kuis
           _buildAssignmentsTab(),
         ],
@@ -181,10 +176,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
             _onItemTapped(index, context);
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
               icon: Icon(Icons.school),
               label: 'Kelas Saya',
@@ -230,10 +222,12 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                       width: 60,
                       height: 60,
                       child: CircularProgressIndicator(
-                        value: 3/8, // 3 dari 8 materi selesai
+                        value: 3 / 8, // 3 dari 8 materi selesai
                         strokeWidth: 6,
                         backgroundColor: const Color(0xFFE0E0E0),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF8B0000)),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFF8B0000),
+                        ),
                       ),
                     ),
                     const Text(
@@ -261,7 +255,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${(3/8 * 100).toStringAsFixed(0)}% materi telah diselesaikan',
+                        '${(3 / 8 * 100).toStringAsFixed(0)}% materi telah diselesaikan',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -269,9 +263,11 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                       ),
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
-                        value: 3/8,
+                        value: 3 / 8,
                         backgroundColor: const Color(0xFFE0E0E0),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF8B0000)),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFF8B0000),
+                        ),
                         minHeight: 6,
                         borderRadius: BorderRadius.circular(3),
                       ),
@@ -305,11 +301,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.assignment,
-            size: 80,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.assignment, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 20),
           const Text(
             'Tugas dan Kuis',
@@ -323,13 +315,28 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Fitur tugas dan kuis akan segera tersedia',
+              'Klik tombol di bawah untuk melihat tugas dan kuis',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AssignmentsPage(
+                    courseTitle: widget.courseTitle,
+                    courseCode: widget.courseCode,
+                  ),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF8B0000),
+            ),
+            child: const Text('Lihat Tugas & Kuis'),
           ),
         ],
       ),
@@ -356,7 +363,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
             ),
           ],
           border: Border.all(
-            color: material['isCompleted'] 
+            color: material['isCompleted']
                 ? const Color(0xFF4CAF50).withOpacity(0.3)
                 : const Color(0xFFE0E0E0),
             width: material['isCompleted'] ? 1.5 : 1,
@@ -370,7 +377,10 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
               children: [
                 // Badge sesi (biru)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF2196F3),
                     borderRadius: BorderRadius.circular(6),
@@ -391,7 +401,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: material['isCompleted'] 
+                    color: material['isCompleted']
                         ? const Color(0xFF4CAF50).withOpacity(0.1)
                         : const Color(0xFFE0E0E0),
                     border: Border.all(
@@ -412,7 +422,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
               ],
             ),
             const SizedBox(height: 12),
-            
+
             // Judul materi
             Text(
               material['title'],
@@ -426,7 +436,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 8),
-            
+
             // Tanggal
             Row(
               children: [
@@ -446,16 +456,14 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
               ],
             ),
             const SizedBox(height: 12),
-            
+
             // Detail resource
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: const Color(0xFFE0E0E0),
-                ),
+                border: Border.all(color: const Color(0xFFE0E0E0)),
               ),
               child: Row(
                 children: [
@@ -494,9 +502,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Container(
@@ -517,12 +523,15 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Badge dan status
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF2196F3),
                       borderRadius: BorderRadius.circular(6),
@@ -539,13 +548,14 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                   const Spacer(),
                   if (material['isCompleted'])
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE8F5E9),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: const Color(0xFF4CAF50),
-                        ),
+                        border: Border.all(color: const Color(0xFF4CAF50)),
                       ),
                       child: const Row(
                         children: [
@@ -569,7 +579,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Judul materi
               Text(
                 material['title'],
@@ -580,7 +590,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ),
               ),
               const SizedBox(height: 10),
-              
+
               // Tanggal
               Row(
                 children: [
@@ -600,14 +610,11 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Divider
-              Container(
-                height: 1,
-                color: Colors.grey.withOpacity(0.2),
-              ),
+              Container(height: 1, color: Colors.grey.withOpacity(0.2)),
               const SizedBox(height: 20),
-              
+
               // Konten materi
               const Text(
                 'Konten Materi:',
@@ -618,19 +625,35 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ),
               ),
               const SizedBox(height: 15),
-              
+
               Expanded(
                 child: ListView(
                   children: [
-                    _buildResourceItem('Video Pembelajaran', Icons.videocam, '45 menit'),
-                    _buildResourceItem('Slide Presentasi', Icons.slideshow, 'PDF - 25 slide'),
-                    _buildResourceItem('Reading Materials', Icons.article, '3 artikel'),
+                    _buildResourceItem(
+                      'Video Pembelajaran',
+                      Icons.videocam,
+                      '45 menit',
+                    ),
+                    _buildResourceItem(
+                      'Slide Presentasi',
+                      Icons.slideshow,
+                      'PDF - 25 slide',
+                    ),
+                    _buildResourceItem(
+                      'Reading Materials',
+                      Icons.article,
+                      '3 artikel',
+                    ),
                     _buildResourceItem('Quiz', Icons.quiz, '10 soal'),
-                    _buildResourceItem('Diskusi', Icons.forum, 'Forum diskusi online'),
+                    _buildResourceItem(
+                      'Diskusi',
+                      Icons.forum,
+                      'Forum diskusi online',
+                    ),
                   ],
                 ),
               ),
-              
+
               // Tombol aksi
               const SizedBox(height: 20),
               SizedBox(
@@ -654,10 +677,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                   ),
                   child: const Text(
                     'Buka Materi',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -676,9 +696,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color(0xFFE0E0E0),
-        ),
+        border: Border.all(color: const Color(0xFFE0E0E0)),
       ),
       child: Row(
         children: [
@@ -689,11 +707,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
               color: const Color(0xFF8B0000).withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF8B0000),
-              size: 20,
-            ),
+            child: Icon(icon, color: const Color(0xFF8B0000), size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -710,18 +724,12 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
                 ),
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
             ),
           ),
-          const Icon(
-            Icons.chevron_right,
-            color: Color(0xFF9E9E9E),
-          ),
+          const Icon(Icons.chevron_right, color: Color(0xFF9E9E9E)),
         ],
       ),
     );
@@ -732,7 +740,7 @@ class _CourseMaterialPageState extends State<CourseMaterialPage> with SingleTick
     setState(() {
       _selectedIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(
