@@ -5,6 +5,7 @@ import 'task_detail_page.dart';
 import 'announcements_page.dart';
 import 'course_material_page.dart';
 import 'student_profile_page.dart';
+import 'notifications_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,15 +21,13 @@ class _HomePageState extends State<HomePage> {
 
   // ========== TAMBAHKAN METHOD INI ==========
   void _onItemTapped(int index) {
-    // Update UI terlebih dahulu
     setState(() {
       _selectedIndex = index;
     });
 
-    // Navigasi ke halaman yang sesuai
     switch (index) {
       case 0: // Home
-        // Sudah di Home, tidak perlu navigasi
+        // Sudah di Home
         break;
       case 1: // Kelas Saya
         Navigator.pushReplacement(
@@ -37,12 +36,9 @@ class _HomePageState extends State<HomePage> {
         );
         break;
       case 2: // Notifikasi
-        // Untuk sementara, tampilkan snackbar
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Halaman Notifikasi akan segera tersedia'),
-            backgroundColor: Color(0xFF800000),
-          ),
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NotificationsPage()),
         );
         break;
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Pastikan import HomePage
 import 'course_material_page.dart';
+import 'notifications_page.dart'; // Tambahkan ini
 
 class MyClassesPage extends StatefulWidget {
   const MyClassesPage({super.key});
@@ -415,7 +416,7 @@ class _MyClassesPageState extends State<MyClassesPage> {
     setState(() {
       _selectedIndex = index;
     });
-
+    
     switch (index) {
       case 0: // Home
         Navigator.pushReplacement(
@@ -427,14 +428,11 @@ class _MyClassesPageState extends State<MyClassesPage> {
         // Sudah di halaman ini, tidak perlu navigasi
         break;
       case 2: // Notifikasi
-        // Untuk sementara, tampilkan snackbar
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Halaman Notifikasi akan segera tersedia'),
-            backgroundColor: Color(0xFF8B0000),
-          ),
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NotificationsPage()),
         );
         break;
     }
   }
-}
+} // <-- INI KURUNG TUTUP METHOD
